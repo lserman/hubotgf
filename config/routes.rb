@@ -1,2 +1,3 @@
-Hubotgf::Engine.routes.draw do
+HubotGF::Engine.routes.draw do
+  resources :commands, only: :create
 end

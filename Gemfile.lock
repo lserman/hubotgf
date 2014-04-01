@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    hubotgf (0.0.1)
+    HubotGF (0.0.1)
       rails (~> 4.0.4)
 
 GEM
@@ -97,6 +97,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  hubotgf!
+  HubotGF!
   rspec-rails
   sqlite3
