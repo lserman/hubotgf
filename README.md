@@ -53,7 +53,7 @@ Hear script to offload unknown commands to Hubot GF. I am using the dollar sign 
 ```coffee
 module.exports = (robot) ->
 
-  robot.hear /$ (.*)/, (msg) ->
+  robot.hear /\$ (.*)/, (msg) ->
     params =
       _sender: msg.message.user.jid
       _room: msg.message.room
@@ -110,7 +110,7 @@ class TestWorker
 end
 ```
 
-Hubot will now execute this method when it receives a message such as "Make me a pizza".
+Hubot will now execute this method when it receives a message such as "$ Make me a pizza".
 
 ### Sending feedback
 
