@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module HubotGf
-  describe GF do
+  describe Messenger do
 
     before do
       stub_request(:post, "http://hubot-gf-test.com/hubot/pm").to_return status: 200, body: "", headers: {}

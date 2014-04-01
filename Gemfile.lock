@@ -1,10 +1,10 @@
 PATH
   remote: .
   specs:
-    HubotGF (0.0.1)
+    hubotgf (0.0.1)
       faraday
       faraday_middleware
-      rails (~> 4.0.4)
+      rails (>= 4.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -140,7 +140,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  HubotGF!
+  hubotgf!
   resque
   rspec-rails
   sidekiq

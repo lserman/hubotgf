@@ -7,11 +7,11 @@ module HubotGf
       base.extend ClassMethods
     end
 
-    def self.start(command, sender = nil)
+    def self.start(command, metadata = {})
       worker = @workers.find { |w| w.command =~ command }
       if worker
-        arguments = worker.command.match(command).captures << sender
-        HubotGf::Config.perform.call(worker, arguments)
+        arguments = worker.command.match(command).captures
+        HubotGf::Config.perform.call(worker, arguments, metadata)
       end
     end
 
