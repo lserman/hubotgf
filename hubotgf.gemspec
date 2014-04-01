@@ -16,10 +16,13 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
 
   s.add_dependency "rails", "~> 4.0.4"
+  s.add_dependency "faraday"
+  s.add_dependency "faraday_middleware"
 
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "rspec-rails"
   s.add_development_dependency "sidekiq"
   s.add_development_dependency "resque"
+  s.add_development_dependency "webmock"
 
 end

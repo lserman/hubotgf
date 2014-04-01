@@ -7,9 +7,16 @@ module HubotGF
       base.extend ClassMethods
     end
 
-    def self.start(command)
+    def self.start(command, sender = nil)
       worker = @workers.find { |w| w.command =~ command }
-      HubotGF::Config.perform.call(worker, worker.command.match(command).captures) if worker
+      if worker
+        arguments = worker.command.match(command).captures << sender
+        HubotGF::Config.perform.call(worker, arguments)
+      end
+    end
+
+    def gf
+      HubotGF::GF.new
     end
 
     module ClassMethods

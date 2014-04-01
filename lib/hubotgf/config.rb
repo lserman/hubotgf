@@ -2,13 +2,12 @@ module HubotGF
   module Config
     extend self
 
-    attr_accessor :perform, :performer
+    attr_accessor :perform, :performer, :hubot_url
 
     def configure
       yield self
     end
 
-    # Sidekiq::Client.enqueue(worker, *args)
     def perform
       @perform || lambda do |worker, args|
         case performer
@@ -16,7 +15,7 @@ module HubotGF
           Sidekiq::Client.enqueue(worker, *args)
         when :resque
           Resque.enqueue(worker, *args)
-        else # inline
+        else
           worker.new.perform(*args)
         end
       end

@@ -7,8 +7,8 @@ module HubotGF
       include HubotGF::Worker
       @queue = 'default'
       self.command = /Make (.*) a (.*)/
-      def perform(who, what); "Made #{who} a #{what}" end
-      def self.perform(who, what); "Made #{who} a #{what} (Resque)" end
+      def perform(who, what, sender); "Made #{who} a #{what}" end
+      def self.perform(who, what, sender); "Made #{who} a #{what} (Resque)" end
     end
 
     it 'finds the TestWorker and queues it' do
