@@ -3,7 +3,7 @@ require "hubotgf/config"
 require "hubotgf/worker"
 require "hubotgf/gf"
 
-require_relative "../app/controllers/hubotgf/commands_controller"
+require_relative "../app/controllers/hubotgf/tasks_controller"
 
 module HubotGF
 
