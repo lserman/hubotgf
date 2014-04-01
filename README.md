@@ -41,12 +41,16 @@ HubotGf.configure do |config|
   config.hubot_url = 'http://your-hubot.herokuapp.com'
   
   # can be any lambda/proc that accepts these 3 arguments. This closure will be executed
-  # whenever a new worker is started.
-  config.perform = -> { |worker, args, metadata = {}| worker.new.perform(*args) }
+  # whenever a new worker is started. Most likely you will not need to edit this, see the 
+  # source code for the actual implementation.
+  config.perform = lambda do |worker, args, metadata = {}| 
+    worker.new.perform(*args)
+  end
+  
 end
 ```
 
-The `perform` proc will be set to enqueue a Sidekiq/Resque worker based on the `performer` configuration option. If no `performer` is set, the worker will simply be instantiated as shown. The `metadata` hash contains information from Hubot, such as the `:sender` (JID of the user) and `:room` (room name the command was sent from).
+The `perform` proc will be set to enqueue a Sidekiq/Resque worker based on the `performer` configuration option. If no performer is set, the worker will simply be instantiated as shown. The `metadata` hash contains information from Hubot, such as the `:sender` (JID of the user) and `:room` (room name the command was sent from).
 
 The default proc will append the `sender` and `room` arguments to the `args` array according to the worker method's arity (explained further below)
 
