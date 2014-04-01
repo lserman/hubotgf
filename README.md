@@ -77,7 +77,7 @@ Hubot will now execute this method when it receives a message such as "Make me a
 
 ### Sending feedback
 
-Workers have access to the `gf` object, which can send messages back to Hubot. The `gf` object has two methods, `pm` and `room`:
+Workers have access to the `gf` object, which has two methods: `pm` and `room`. These methods can be used to send messages back to Hubot and inform people when their job is done and what it returned.
 
 ```ruby
 class TestWorker
