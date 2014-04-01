@@ -1,3 +1,3 @@
 HubotGF::Engine.routes.draw do
-  resources :commands, only: :create
+  resources :tasks, only: :create
 end

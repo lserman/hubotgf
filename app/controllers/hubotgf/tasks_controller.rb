@@ -1,5 +1,5 @@
 module HubotGF
-  class CommandsController < ActionController::Base
+  class TasksController < ActionController::Base
 
     def create
       result = HubotGF::Worker.start params[:command], params[:_sender]

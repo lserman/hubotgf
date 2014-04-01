@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.version     = HubotGF::VERSION
   s.authors     = ['Logan Serman']
   s.email       = ['loganserman@gmail.com']
-  s.homepage    = 'TODO GITHUB URL'
-  s.summary     = 'TODO'
+  s.homepage    = 'https://github.com/lserman/hubotgf'
+  s.summary     = 'Rails sidekick for Hubot'
   s.description = s.summary
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
