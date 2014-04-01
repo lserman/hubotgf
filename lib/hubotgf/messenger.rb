@@ -5,7 +5,7 @@ module HubotGf
   class Messenger
 
     def pm(jid, message)
-      Rails.logger.info "Sending message to #{jid}, message: #{message}"
+      Rails.logger.info "Sending message to #{jid}"
       client.post '/hubot/pm', { replyTo: jid, message: message }
     end
 
