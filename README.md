@@ -30,6 +30,43 @@ can't understand:
 mount HubotGf::Engine => '/hubotgf'
 ```
 
+Add Hubot scripts - this is the only time you will have to touch the Hubot Coffeescript files. After this, it's all Ruby.
+
+Messenging API:
+
+```coffee
+module.exports = (robot) ->
+
+  robot.router.post '/hubot/pm', (req, res) ->
+    data = req.body
+    robot.reply user: data.replyTo, "#{data.message}"
+    res.end ""
+
+  robot.router.post '/hubot/room', (req, res) ->
+    data = req.body
+    robot.messageRoom data.room, "#{data.message}"
+    res.end ""
+```
+
+Catch-all script to offload unknown commands to Hubot GF:
+
+```coffee
+module.exports = (robot) ->
+
+  robot.catchAll (msg) ->
+    params =
+      _sender: msg.message.user.jid
+      _room: msg.message.room
+      command: msg.message.text
+
+    params = JSON.stringify(params)
+
+    msg.http('YOUR_HUBOT_GF_SERVER/hubotgf/tasks')
+      .headers('Accept': 'application/json', 'Content-Type': 'application/json')
+      .post(params) (err, response, body) ->
+        if err then msg.send "Error contacting my GF"
+```
+
 ### Configuration
 
 ```ruby
