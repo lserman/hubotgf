@@ -56,7 +56,7 @@ The default proc will append the `sender` and `room` arguments to the `args` arr
 
 ### Creating a worker
 
-A worker is any worker that responds to `perform` and includes `HubotGf::Worker`. This convention is spawned from the popular background job processors Sidekiq and Resque.
+A worker is any class that responds to `perform` and includes `HubotGf::Worker`. This convention is spawned from the popular background job processors Sidekiq and Resque.
 
 Commands are defined as regular expressions, and each match is passed into `perform`. The `sender` and `room` argument can be optionally accepted into `perform`. If the `perform` method does not accept those two arguments, then they will simply not be sent.
 
