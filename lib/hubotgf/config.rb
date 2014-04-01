@@ -1,4 +1,4 @@
-module HubotGF
+module HubotGf
   module Config
     extend self
 

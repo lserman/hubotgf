@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  mount HubotGF::Engine => "/hubotgf"
+  mount HubotGf::Engine => "/hubotgf"
 end

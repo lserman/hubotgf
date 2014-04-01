@@ -1,5 +1,5 @@
 class TestWorker
-  include HubotGF::Worker
+  include HubotGf::Worker
 
   command /Make (.*) a (.*)/
 

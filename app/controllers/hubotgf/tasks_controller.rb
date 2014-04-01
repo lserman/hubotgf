@@ -1,8 +1,8 @@
-module HubotGF
+module HubotGf
   class TasksController < ActionController::Base
 
     def create
-      result = HubotGF::Worker.start params[:command], params[:_sender]
+      result = HubotGf::Worker.start params[:command], params[:_sender]
       head (result ? :ok : :not_found)
     end
 

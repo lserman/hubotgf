@@ -1,6 +1,5 @@
-module HubotGF
+module HubotGf
   class Engine < ::Rails::Engine
-    engine_name 'hubotgf'
-    isolate_namespace HubotGF
+    isolate_namespace HubotGf
   end
 end

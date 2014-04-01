@@ -1,8 +1,8 @@
 require "faraday"
 require "faraday_middleware"
 
-module HubotGF
-  class GF
+module HubotGf
+  class Messenger
 
     def pm(jid, message)
       Rails.logger.info "Sending message to #{jid}, message: #{message}"
@@ -17,7 +17,7 @@ module HubotGF
     private
 
       def client
-        @client ||= Faraday.new(url: HubotGF::Config.hubot_url) do |http|
+        @client ||= Faraday.new(url: HubotGf::Config.hubot_url) do |http|
           http.request :json
           http.adapter :net_http
         end

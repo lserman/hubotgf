@@ -1,4 +1,4 @@
-module HubotGF
+module HubotGf
   module Worker
 
     def self.included(base)
@@ -11,12 +11,12 @@ module HubotGF
       worker = @workers.find { |w| w.command =~ command }
       if worker
         arguments = worker.command.match(command).captures << sender
-        HubotGF::Config.perform.call(worker, arguments)
+        HubotGf::Config.perform.call(worker, arguments)
       end
     end
 
     def gf
-      HubotGF::GF.new
+      HubotGf::Messenger.new
     end
 
     module ClassMethods
