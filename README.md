@@ -1,6 +1,6 @@
 ## Hubot GF
 
-Hubot GF teams up with Hubot to perform tasks. Because she runs in a Rails app, Hubot GF can be much more powerful 
+Hubot GF teams up with [hubot](https://github.com/github/hubot) to perform tasks. Because she runs in a Rails app, Hubot GF can be much more powerful 
 than Hubot and together they can be very powerful.
 
 ### Why
@@ -21,7 +21,7 @@ the Hubot GF engine.
 Add to your Gemfile and bundle:
 
 ```
-gem 'hubotgf', github: 'lserman/hubotgf'
+gem 'hubotgf'
 ```
 
 Mount the Hubot GF routes inside of your `routes.rb`. Hubot will contact this route when it receives a command that it 
@@ -131,3 +131,8 @@ end
 ```
 
 Because of this asynchronous communication, Hubot doesn't care about the workload, it simply sends and receives messages. The heavy lifting is done by the server, most likely on a background job.
+
+
+### Contribute
+
+As of now we've only built hubotgf to work with the [hipchat adapter](https://github.com/hipchat/hubot-hipchat) (reason we use JID) but we plan to add more adapters in the future. We'll hopefully add the `hubotgf_adapter_name.coffee` to [hubot-scripts](https://github.com/github/hubot-scripts). Feel free to submit a pull request and we'll try to add to your code in. 
