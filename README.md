@@ -48,12 +48,12 @@ module.exports = (robot) ->
     res.end ""
 ```
 
-Hear script to offload unknown commands to Hubot GF. I am using the dollar sign here to signal that it is a GF call. You could use catchAll, but then every single message being sent would trigger a request to Hubot GF. It's also creepy to be sending all of those messages over the internet:
+Respond script to offload unknown commands to Hubot GF.
 
 ```coffee
 module.exports = (robot) ->
 
-  robot.hear /\$ (.*)/, (msg) ->
+  robot.respond /(.*)/i, (msg) ->
     params =
       _sender: msg.message.user.jid
       _room: msg.message.room
