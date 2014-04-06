@@ -9,7 +9,7 @@ module HubotGF
     end
 
     def perform
-      @perform || lambda do |worker, args|
+      @perform ||= lambda do |worker, args|
         case performer
         when :sidekiq
           Sidekiq::Client.enqueue(worker, *args)

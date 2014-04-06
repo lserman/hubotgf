@@ -6,9 +6,8 @@ module HubotGF
     class TestWorker
       include HubotGF::Worker
       @queue = 'default'
-      self.command = /Make (.*) a (.*)/
-      def perform(who, what, sender); "Made #{who} a #{what}" end
-      def self.perform(who, what, sender); "Made #{who} a #{what} (Resque)" end
+      listen %r[Make (.*) a (.*)] => :test!
+      def test!(who, what); "Made #{who} a #{what}, sender: #{@sender}, room: #{@room}" end
     end
 
     it 'finds the TestWorker and queues it' do
@@ -17,6 +16,10 @@ module HubotGF
 
     it 'does nothing and returns nil when no workers handle the request' do
       HubotGF::Worker.start('Do nothing').should == nil
+    end
+
+    it 'has @sender and @room available' do
+      HubotGf::Worker.start('Make me a pizza', 'sender-jid', 'test-room').should == 'Made me a pizza, sender: sender-jid, room: test-room'
     end
 
     context 'when performer is Sidekiq' do
@@ -43,8 +46,8 @@ module HubotGF
       end
 
       it 'queues up a Resque worker' do
-        expect(TestWorker).to receive(:perform) { true }
-        HubotGF::Worker.start('Make me a pizza')
+        expect_any_instance_of(TestWorker).to receive(:test!) { true }
+        HubotGf::Worker.start('Make me a pizza')
       end
     end
 
