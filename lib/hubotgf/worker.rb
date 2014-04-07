@@ -5,13 +5,13 @@ module HubotGf
       @workers ||= []
       @workers << base
       base.extend(ClassMethods)
-      delegate :method, :command, to: :class
     end
 
     def self.start(command, sender = nil, room = nil)
       worker = @workers.find { |w| w.commands.include? command }
       if worker
-        arguments = worker.commands.match(command).captures
+        worker.command = worker.commands.match(command)
+        arguments = worker.command.arguments
         arguments = arguments.unshift(sender, room)
         HubotGf::Config.perform.(worker, arguments)
       end
@@ -20,7 +20,7 @@ module HubotGf
     # Sidekiq entry
     def perform(*args)
       @sender, @room = args.shift, args.shift
-      send method, *args
+      send self.class.command.method, *args
     end
 
     def reply(message)
@@ -32,8 +32,12 @@ module HubotGf
     end
 
     module ClassMethods
+      def self.extended(base)
+        attr_accessor :command
+      end
+
       def listen(hash = {})
-        @commands ||= CommandCollection.new
+        @commands ||= CommandCollection.new(self)
         @commands << hash
       end
 

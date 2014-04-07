@@ -1,26 +1,28 @@
-class CommandCollection
+module HubotGf
+  class CommandCollection
 
-  attr_accessor :regex, :method
+    attr_accessor :regex, :method
 
-  delegate :=~, :match, to: :regex
+    delegate :=~, :match, to: :regex
 
-  def initialize
-    @commands = []
-  end
-
-  def <<(hash)
-    @commands << hash
-  end
-
-  def include?(string)
-    @commands.any? { |cmd| cmd.keys[0] =~ string }
-  end
-
-  def match(string)
-    @commands.each do |cmd|
-      match = cmd.keys[0].match(string)
-      return match if match
+    def initialize(worker)
+      @commands = []
+      @worker   = worker
     end
-  end
 
+    def <<(hash)
+      @commands << Command.new(hash)
+    end
+
+    def include?(text)
+      @commands.any? { |cmd| cmd.regex =~ text }
+    end
+
+    def match(text)
+      command = @commands.find { |cmd| cmd.regex =~ text }
+      command.text = text
+      command
+    end
+
+  end
 end

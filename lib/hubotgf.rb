@@ -1,5 +1,6 @@
 require "hubotgf/engine"
 require "hubotgf/config"
+require "hubotgf/command"
 require "hubotgf/command_collection"
 require "hubotgf/worker"
 require "hubotgf/messenger"

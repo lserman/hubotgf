@@ -11,7 +11,7 @@ module HubotGf
     end
 
     it 'finds the TestWorker and queues it' do
-      HubotGf::Worker.start('Make me a pizza').should == 'Made me a pizza'
+      HubotGf::Worker.start('Make me a pizza').should match 'Made me a pizza'
     end
 
     it 'does nothing and returns nil when no workers handle the request' do
@@ -20,6 +20,21 @@ module HubotGf
 
     it 'has @sender and @room available' do
       HubotGf::Worker.start('Make me a pizza', 'sender-jid', 'test-room').should == 'Made me a pizza, sender: sender-jid, room: test-room'
+    end
+
+    context 'when worker has multiple commands' do
+      class BusyWorker
+        include HubotGf::Worker
+        listen %r[First: (.*)] => :first
+        listen %r[Second: (.*)] => :second
+        def first(arg); "1: #{arg}"; end
+        def second(arg); "2: #{arg}"; end
+      end
+
+      it 'can call both commands' do
+        HubotGf::Worker.start('First: TESTA').should == '1: TESTA'
+        HubotGf::Worker.start('Second: TESTB').should == '2: TESTB'
+      end
     end
 
     context 'when performer is Sidekiq' do
