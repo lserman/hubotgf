@@ -3,8 +3,6 @@ module HubotGf
 
     attr_accessor :regex, :method
 
-    delegate :=~, :match, to: :regex
-
     def initialize(worker)
       @commands = []
       @worker   = worker

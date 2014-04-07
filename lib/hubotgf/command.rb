@@ -1,11 +1,11 @@
 module HubotGf
   class Command
 
-    attr_accessor :regex, :method, :text
+    attr_accessor :regex, :_method, :text
 
     def initialize(hash)
-      @regex  = hash.keys.first
-      @method = hash.values.first
+      @regex   = hash.keys.first
+      @_method = hash.values.first
     end
 
     def arguments
