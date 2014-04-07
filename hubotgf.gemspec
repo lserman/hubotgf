@@ -9,13 +9,13 @@ Gem::Specification.new do |s|
   s.version     = HubotGf::VERSION
   s.authors     = ['Logan Serman']
   s.email       = ['loganserman@gmail.com']
-  s.homepage    = 'TODO GITHUB URL'
-  s.summary     = 'TODO'
+  s.homepage    = 'https://github.com/lserman/hubotgf'
+  s.summary     = 'Rails sidekick for Hubot'
   s.description = s.summary
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
 
-  s.add_dependency "rails", "~> 4.0.4"
+  s.add_dependency "rails", ">= 4.0.0"
   s.add_dependency "faraday"
   s.add_dependency "faraday_middleware"
 
