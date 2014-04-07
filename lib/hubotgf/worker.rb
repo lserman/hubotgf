@@ -20,7 +20,7 @@ module HubotGf
     # Sidekiq entry
     def perform(*args)
       @sender, @room = args.shift, args.shift
-      Rails.logger.info "HUBOTGF: Calling method #{method} with arguments #{args}"
+      Rails.logger.info "HUBOTGF: Calling method #{self.class.command.method} with arguments #{args}"
       send self.class.command.method, *args
     end
 
