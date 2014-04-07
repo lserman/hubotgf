@@ -10,17 +10,16 @@ module HubotGf
     def self.start(command, sender = nil, room = nil)
       worker = @workers.find { |w| w.commands.include? command }
       if worker
-        worker.command = worker.commands.match(command)
-        arguments = worker.command.arguments
-        arguments = arguments.unshift(sender, room)
+        command = worker.commands.match(command)
+        arguments = command.arguments.unshift(command._method, sender, room)
         HubotGf::Config.perform.(worker, arguments)
       end
     end
 
     # Sidekiq entry
-    def perform(*args)
-      @sender, @room = args.shift, args.shift
-      send self.class.command._method, *args
+    def perform(method, sender, room, *args)
+      @sender, @room = sender, room
+      send method, *args
     end
 
     def reply(message)
