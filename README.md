@@ -1,6 +1,7 @@
 ## Hubot GF
 
-Hubot GF teams up with [Hubot](https://github.com/github/hubot) to perform tasks. Because she runs in a Rails app, Hubot GF can be much more powerful
+Hubot GF teams up with [Hubot](https://github.com/github/hubot) to perform tasks. Because she runs in a Rails app,
+Hubot GF has more potential than Hubot and together they can be very powerful.
 
 ### Why
 
