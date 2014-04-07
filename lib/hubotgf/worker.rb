@@ -1,4 +1,4 @@
-module HubotGF
+module HubotGf
   module Worker
 
     def self.included(base)
@@ -9,10 +9,12 @@ module HubotGF
     end
 
     def self.start(command, sender = nil, room = nil)
-      return unless worker = @workers.find { |w| w.command =~ command }
-      arguments = worker.command.match(command).captures
-      arguments = arguments.unshift(sender, room)
-      HubotGf::Config.perform.(worker, arguments)
+      worker = @workers.find { |w| w.commands.include? command }
+      if worker
+        arguments = worker.commands.match(command).captures
+        arguments = arguments.unshift(sender, room)
+        HubotGf::Config.perform.(worker, arguments)
+      end
     end
 
     # Sidekiq entry
@@ -30,19 +32,17 @@ module HubotGF
     end
 
     module ClassMethods
-      def listen(hash = nil)
-        @command = hash.keys[0]
-        @method  = hash.values[0]
+      def listen(hash = {})
+        @commands ||= CommandCollection.new
+        @commands << hash
       end
 
-      def command; @command; end
-      def method; @method; end
+      def commands; @commands; end
 
       # Resque entry
       def perform(*args)
         new.perform(*args)
       end
-
     end
 
   end

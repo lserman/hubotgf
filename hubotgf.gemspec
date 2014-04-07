@@ -6,7 +6,7 @@ require "hubotgf/version"
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = "hubotgf"
-  s.version     = HubotGF::VERSION
+  s.version     = HubotGf::VERSION
   s.authors     = ['Logan Serman']
   s.email       = ['loganserman@gmail.com']
   s.homepage    = 'TODO GITHUB URL'
