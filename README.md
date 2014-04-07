@@ -1,19 +1,10 @@
 ## Hubot GF
 
-<<<<<<< HEAD
-Hubot GF teams up with [hubot](https://github.com/github/hubot) to perform tasks. Because she runs in a Rails app, Hubot GF can be much more powerful
-=======
-Hubot GF teams up with [hubot](https://github.com/github/hubot) to perform tasks. Because she runs in a Rails app, Hubot GF can be much more powerful 
->>>>>>> master
-than Hubot and together they can be very powerful.
+Hubot GF teams up with [Hubot](https://github.com/github/hubot) to perform tasks. Because she runs in a Rails app, Hubot GF can be much more powerful
 
 ### Why
 
-<<<<<<< HEAD
 I noticed that devs didn't care to write custom Hubot scripts when we launched Hubot with our team. I started Hubot GF to
-=======
-I noticed that devs didn't care to write custom Hubot scripts when we launched Hubot with our team. I started Hubot GF to 
->>>>>>> master
 make Hubot scripting a little easier:
 
 - Devs are more comfortable with Ruby than Coffee (or JS)
@@ -21,11 +12,7 @@ make Hubot scripting a little easier:
 - Deploying new Rails code was something built into our process, Node was not
 - Things are easier in Ruby (HTTP, SSH, etc)
 
-<<<<<<< HEAD
 With Hubot GF, devs don't need to edit Hubot scripts at all. The commands are defined within any Rails app that includes
-=======
-With Hubot GF, devs don't need to edit Hubot scripts at all. The commands are defined within any Rails app that includes 
->>>>>>> master
 the Hubot GF engine.
 
 ### Installing Hubot GF
@@ -36,12 +23,9 @@ Add to your Gemfile and bundle:
 gem 'hubotgf'
 ```
 
-<<<<<<< HEAD
 Mount the Hubot GF routes inside of your `routes.rb`. Hubot will contact this route when it receives a command that it
-=======
-Mount the Hubot GF routes inside of your `routes.rb`. Hubot will contact this route when it receives a command that it 
->>>>>>> master
 can't understand:
+
 ```ruby
 mount HubotGf::Engine => '/hubotgf'
 ```
@@ -89,7 +73,6 @@ module.exports = (robot) ->
 HubotGf.configure do |config|
   # :sidekiq or :resque, if set to nothing then the worker will run inline
   config.performer = :sidekiq
-<<<<<<< HEAD
 
   # base URL for Hubot, so that Hubot GF can contact Hubot via HTTP to respond to messages
   config.hubot_url = 'http://your-hubot.herokuapp.com'
@@ -101,81 +84,46 @@ HubotGf.configure do |config|
     worker.new.perform(*args)
   end
 
-=======
-  
-  # base URL for Hubot, so that Hubot GF can contact Hubot via HTTP to respond to messages
-  config.hubot_url = 'http://your-hubot.herokuapp.com'
-  
-  # can be any lambda/proc that accepts these 3 arguments. This closure will be executed
-  # whenever a new worker is started. Most likely you will not need to edit this, see the 
-  # source code for the actual implementation.
-  config.perform = lambda do |worker, args, metadata = {}| 
-    worker.new.perform(*args)
-  end
-  
->>>>>>> master
 end
 ```
 
-The `perform` proc will be set to enqueue a Sidekiq/Resque worker based on the `performer` configuration option. If no performer is set, the worker will simply be instantiated as shown. The `metadata` hash contains information from Hubot, such as the `:sender` (JID of the user) and `:room` (room name the command was sent from).
-
-<<<<<<< HEAD
-The default proc with no performer will just instantiate the worker and run it inline with the request.
+The `perform` proc will be set to enqueue a Sidekiq/Resque worker based on the `performer` configuration option.
+If no performer is set, the worker will simply be instantiated as shown.
 
 ### Creating a worker
 
-A worker is any class that includes `HubotGf::Worker`. Commands are defined via `listen`, which accepts a regular expression and a method name. The captures from the regex are sent as arguments to the method when the worker is started.
-=======
-The default proc will append the `sender` and `room` arguments to the `args` array according to the worker method's arity (explained further below)
-
-### Creating a worker
-
-A worker is any class that responds to `perform` and includes `HubotGf::Worker`. This convention is spawned from the popular background job processors Sidekiq and Resque.
-
-Commands are defined as regular expressions, and each match is passed into `perform`. The `sender` and `room` argument can be optionally accepted into `perform`. If the `perform` method does not accept those two arguments, then they will simply not be sent.
->>>>>>> master
+A worker is any class that includes `HubotGf::Worker`. Commands are defined via `listen`, which accepts a regular
+expression and a method name. The captures from the regex are sent as arguments to the method when the worker is started.
 
 ```ruby
 class TestWorker
   include HubotGf::Worker
-<<<<<<< HEAD
 
-  listen /Make (*.*) a (.*)/i => :make!
+  listen /Make (.*) a (.*)/i => :make
+  listen /Give me a (.*)/i => :give
 
   def make!(who, what)
-    p "Made #{who} a #{what}"
+    # ...
+  end
+
+  def give(what)
+    # ...
   end
 
 end
 ```
 
-Hubot will now execute this method when it receives a message such as "Make me a pizza".
+Hubot will now execute `make` when it receives a message such as "Make me a pizza" and `give` when it receives
+a message like "Give me a cookie".
 
 ### Sending feedback
 
-Workers have access to two messaging methods: `reply` and `rebroadcast`, each accepting a message. `reply` sends the message back to the original caller in a private message, `rebroadcast` sends the message back to the room it came from.
-=======
-  
-  self.command = /Make (*.*) a (.*)/i
-  
-  def perform(who, what, sender, room)
-    p "Made #{who} a #{what} from #{sender} (sent to room: #{room})"
-  end
-  
-end
-```
-
-Hubot will now execute this method when it receives a message such as "$ Make me a pizza".
-
-### Sending feedback
-
-Workers have access to the `gf` object, which has two methods: `pm` and `room`. These methods can be used to send messages back to Hubot and inform people when their job is done and what it returned.
->>>>>>> master
+Workers have access to two messaging methods: `reply` and `rebroadcast`, each accepting a message. `reply` sends
+the message back to the original caller in a private message, `rebroadcast` sends the message back to the room it came from.
 
 ```ruby
 class TestWorker
   include HubotGf::Worker
-<<<<<<< HEAD
 
   listen /Make (*.*) a (.*)/i => :make!
 
@@ -184,28 +132,15 @@ class TestWorker
     reply "Completed your request!"
   end
 
-=======
-  
-  self.command = /Make (*.*) a (.*)/i
-  
-  def perform(who, what, sender, room)
-    gf.room(room, "Made #{who} a #{what}")
-    gf.pm(sender, "Completed your request!")
-  end
-  
->>>>>>> master
 end
 ```
 
-Because of this asynchronous communication, Hubot doesn't care about the workload, it simply sends and receives messages. The heavy lifting is done by the server, most likely on a background job.
-
-<<<<<<< HEAD
-### Contribute
-
-As of now we've only built HubotGf to work with the [Hipchat adapter](https://github.com/hipchat/hubot-hipchat) (reason we use JID) but we plan to add more adapters in the future. We'll hopefully add the `hubotgf_adapter_name.coffee` to [hubot-scripts](https://github.com/github/hubot-scripts). Feel free to submit a pull request and we'll try to add to your code in.
-=======
+Because of this asynchronous communication, Hubot doesn't care about the workload, it simply sends and receives messages.
+The heavy lifting is done by the server, most likely on a background job.
 
 ### Contribute
 
-As of now we've only built hubotgf to work with the [hipchat adapter](https://github.com/hipchat/hubot-hipchat) (reason we use JID) but we plan to add more adapters in the future. We'll hopefully add the `hubotgf_adapter_name.coffee` to [hubot-scripts](https://github.com/github/hubot-scripts). Feel free to submit a pull request and we'll try to add to your code in. 
->>>>>>> master
+As of now we've only built HubotGf to work with the [Hipchat adapter](https://github.com/hipchat/hubot-hipchat)
+(reason we use JID) but we plan to add more adapters in the future. We'll hopefully add the `hubotgf_adapter_name.coffee`
+to [hubot-scripts](https://github.com/github/hubot-scripts). Feel free to submit a pull request and we'll try to add
+to your code in.
