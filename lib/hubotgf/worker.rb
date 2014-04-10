@@ -1,4 +1,4 @@
-module HubotGf
+ module HubotGf
   module Worker
 
     def self.included(base)
@@ -26,7 +26,7 @@ module HubotGf
       HubotGf::Messenger.new.pm(@sender, message)
     end
 
-    def rebroadcast(message)
+    def broadcast(message)
       HubotGf::Messenger.new.broadcast(@room, message)
     end
 

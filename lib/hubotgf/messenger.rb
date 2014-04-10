@@ -9,7 +9,7 @@ module HubotGf
       client.post '/hubot/pm', { replyTo: jid, message: message }
     end
 
-    def room(room, message)
+    def broadcast(room, message)
       Rails.logger.info "Sending message to #{room}, message: #{message}"
       client.post '/hubot/room', { room: room, message: message }
     end

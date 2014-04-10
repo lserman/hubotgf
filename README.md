@@ -119,8 +119,8 @@ a message like "Give me a cookie".
 
 ### Sending feedback
 
-Workers have access to two messaging methods: `reply` and `rebroadcast`, each accepting a message. `reply` sends
-the message back to the original caller in a private message, `rebroadcast` sends the message back to the room it came from.
+Workers have access to two messaging methods: `reply` and `broadcast`, each accepting a message. `reply` sends
+the message back to the original caller in a private message, `broadcast` sends the message back to the room it came from.
 
 ```ruby
 class TestWorker
@@ -129,7 +129,7 @@ class TestWorker
   listen /Make (*.*) a (.*)/i => :make!
 
   def make!(who, what)
-    rebroadcast "Made #{who} a #{what}"
+    broadcast "Made #{who} a #{what}"
     reply "Completed your request!"
   end
 
