@@ -2,7 +2,8 @@ module HubotGf
   module Config
     extend self
 
-    attr_accessor :perform, :performer, :hubot_url
+    attr_accessor :perform, :performer, :hubot_url,
+                  :adapter, :hipchat_token
 
     def configure
       yield self
