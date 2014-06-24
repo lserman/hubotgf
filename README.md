@@ -119,8 +119,12 @@ a message like "Give me a cookie".
 
 ### Sending feedback
 
-Workers have access to two messaging methods: `reply` and `broadcast`, each accepting a message. `reply` sends
-the message back to the original caller in a private message, `broadcast` sends the message back to the room it came from.
+Workers have access to `@sender` and `@room`, which return the sender ID and room ID (respectively) where the command was sent. You
+can send messages back to Hubot using any of three commands:
+
+- `reply(message)` will send the message back wherever it came from (through PM if it came directly, back to the room if it came from a room)
+- `pm(message)` will send back to the sender directly
+- `broadcast(message)` will send back to the room it was sent from
 
 ```ruby
 class TestWorker
