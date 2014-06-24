@@ -7,7 +7,9 @@ module HubotGf
       include HubotGf::Worker
       @queue = 'default'
       listen %r[Make (.*) a (.*)] => :test!
+      listen %r[Message] => :messaging
       def test!(who, what); "Made #{who} a #{what}, sender: #{@sender}, room: #{@room}" end
+      def messaging; reply 'Test!' end
     end
 
     it 'finds the TestWorker and queues it' do
@@ -22,6 +24,23 @@ module HubotGf
       HubotGf::Worker.start('Make me a pizza', 'sender-jid', 'test-room').should == 'Made me a pizza, sender: sender-jid, room: test-room'
     end
 
+    describe '#reply' do
+      before do
+        stub_request(:post, %r[hubot/pm]).to_return status: 200
+        stub_request(:post, %r[hubot/room]).to_return status: 200
+      end
+
+      it 'sends back to the user if message was a PM' do
+        HubotGf::Worker.start('Message', 'sender-jid', 'sender-jid')
+        WebMock.should have_requested :post, %r[hubot/pm]
+      end
+
+      it 'sends back to the room if the message was in a room' do
+        HubotGf::Worker.start('Message', 'sender-jid', 'room-id')
+        WebMock.should have_requested :post, %r[hubot/room]
+      end
+    end
+
     context 'when worker has multiple commands' do
       class BusyWorker
         include HubotGf::Worker
@@ -32,6 +51,7 @@ module HubotGf
       end
 
       it 'can call both commands' do
+        HubotGf::Config.performer = nil
         HubotGf::Worker.start('First: TESTA').should == '1: TESTA'
         HubotGf::Worker.start('Second: TESTB').should == '2: TESTB'
       end

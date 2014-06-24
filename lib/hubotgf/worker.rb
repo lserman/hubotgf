@@ -4,47 +4,53 @@
     def self.included(base)
       @workers ||= []
       @workers << base
+      base.send :include, HubotGf::SidekiqEntry
+      base.extend(HubotGf::ResqueEntry)
       base.extend(ClassMethods)
     end
 
+    # Grabs command from the controller and starts the worker according to HubotGf::Config.perform
     def self.start(command, sender = nil, room = nil)
       worker = @workers.find { |w| w.commands.include? command }
       if worker
         command = worker.commands.match(command)
         arguments = command.arguments.unshift(command._method, sender, room)
-        HubotGf::Config.perform.(worker, arguments)
+        HubotGf::Config.perform.call(worker, arguments)
       end
     end
 
-    # Sidekiq entry
-    def perform(method, sender, room, *args)
-      @sender, @room = sender, room
-      send method, *args
+    def reply(message)
+      if pm?
+        pm(message)
+      else
+        broadcast(message)
+      end
     end
 
-    def reply(message)
-      HubotGf::Messenger.new.pm(@sender, message)
+    def pm(message)
+      messenger.pm(@sender, message)
     end
 
     def broadcast(message)
-      HubotGf::Messenger.new.broadcast(@room, message)
+      messenger.broadcast(@room, message)
+    end
+
+    def pm?
+      @sender == @room
+    end
+
+    def messenger
+      @_messenger = HubotGf::Messenger.new
     end
 
     module ClassMethods
       def self.extended(base)
-        attr_accessor :command
+        attr_reader :commands
       end
 
       def listen(hash = {})
         @commands ||= CommandCollection.new(self)
         @commands << hash
-      end
-
-      def commands; @commands; end
-
-      # Resque entry
-      def perform(*args)
-        new.perform(*args)
       end
     end
 

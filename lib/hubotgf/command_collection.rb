@@ -1,7 +1,7 @@
 module HubotGf
   class CommandCollection
 
-    attr_accessor :regex, :method
+    attr_accessor :commands, :worker
 
     def initialize(worker)
       @commands = []
@@ -17,8 +17,7 @@ module HubotGf
     end
 
     def match(text)
-      command = @commands.find { |cmd| cmd.regex =~ text }
-      if command
+      if command = @commands.find { |cmd| cmd.regex =~ text }
         command.text = text
         command
       end

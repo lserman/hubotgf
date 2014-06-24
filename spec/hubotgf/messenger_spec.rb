@@ -18,7 +18,7 @@ module HubotGf
 
     describe '#room' do
       it 'sends a PM to a Hubot room' do
-        HubotGf::Messenger.new.room('test-room', 'Message')
+        HubotGf::Messenger.new.broadcast('test-room', 'Message')
         WebMock.should have_requested(:post, 'http://hubot-gf-test.com/hubot/room').with(body: '{"room":"test-room","message":"Message"}')
       end
     end
