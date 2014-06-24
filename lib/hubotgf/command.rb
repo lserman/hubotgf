@@ -12,5 +12,9 @@ module HubotGf
       regex.match(text).captures
     end
 
+    def to_s
+      regex.inspect
+    end
+
   end
 end
