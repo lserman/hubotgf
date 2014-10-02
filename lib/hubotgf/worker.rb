@@ -11,7 +11,7 @@
 
     # Grabs command from the controller and starts the worker according to HubotGf::Config.perform
     def self.start(command, sender = nil, room = nil)
-      worker = @workers.find { |w| w.commands.include? command }
+      worker = @workers.find { |w| w.commands && w.commands.include? command }
       if worker
         command = worker.commands.match(command)
         arguments = command.arguments.unshift(command._method, sender, room)
