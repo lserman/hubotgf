@@ -1,0 +1,15 @@
+language: ruby
+cache: bundler
+sudo: false
+rvm:
+- 2.1.0
+- 2.2.0
+deploy:
+  provider: rubygems
+  gem:
+    master: hubotgf
+  on:
+    repo: lserman/hubotgf
+    branch: master
+  api_key:
+    secure: FOY74c6gy9rXBbLcc5gbkVfhDrfBZ5l0s3L23F6KcUzdL1e9kcbUCp0Aqp4tEFglsq1ITwAnr2I4z+gBwfl3+EpJ/aFwNqqnYtNnuvo0npO8gkhBtmQdMOy+YrJh8cHQ/3GMkkuChhCEQUSWUevujf1lTHFY0JrYLAWdhC5tNpY=

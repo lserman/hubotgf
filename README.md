@@ -78,6 +78,10 @@ HubotGf.configure do |config|
   # base URL for Hubot, so that Hubot GF can contact Hubot via HTTP to respond to messages
   config.hubot_url = 'http://your-hubot.herokuapp.com'
 
+  # catchall proc that is executed when no workers listen for the command
+  config.catchall = lambda do |command|
+  end
+
   # can be any lambda/proc that accepts these 3 arguments. This closure will be executed
   # whenever a new worker is started. Most likely you will not need to edit this, see the
   # source code for the actual implementation. The first two arguments are the sender and room name

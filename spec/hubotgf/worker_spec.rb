@@ -16,8 +16,9 @@ module HubotGf
       HubotGf::Worker.start('Make me a pizza').should match 'Made me a pizza'
     end
 
-    it 'does nothing and returns nil when no workers handle the request' do
-      HubotGf::Worker.start('Do nothing').should == nil
+    it 'calls the catchall proc when no workers handle the request' do
+      HubotGf::Config.catchall = -> (command) { command.reverse }
+      HubotGf::Worker.start('Do nothing').should == 'gnihton oD'
     end
 
     it 'has @sender and @room available' do

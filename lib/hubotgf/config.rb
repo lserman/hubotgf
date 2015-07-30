@@ -2,7 +2,7 @@ module HubotGf
   module Config
     extend self
 
-    attr_accessor :perform, :performer, :hubot_url
+    attr_accessor :perform, :performer, :hubot_url, :catchall
 
     def configure
       yield self
@@ -21,5 +21,9 @@ module HubotGf
       end
     end
 
+    def catchall
+      @catchall ||= lambda do |command|
+      end
+    end
   end
 end
