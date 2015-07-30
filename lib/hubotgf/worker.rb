@@ -15,9 +15,9 @@
       if worker
         command = worker.commands.match(command)
         arguments = command.arguments.unshift(command._method, sender, room)
-        HubotGf::Config.perform.call(worker, arguments)
-      else
-        HubotGf::Config.catchall.call(command)
+        HubotGf::Config.perform.call worker, arguments
+      elsif worker = HubotGf::Config.catchall_worker
+        HubotGf::Config.perform.call worker, [:call, sender, room, command]
       end
     end
 

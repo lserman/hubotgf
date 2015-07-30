@@ -16,9 +16,30 @@ module HubotGf
       HubotGf::Worker.start('Make me a pizza').should match 'Made me a pizza'
     end
 
-    it 'calls the catchall proc when no workers handle the request' do
-      HubotGf::Config.catchall = -> (command) { command.reverse }
-      HubotGf::Worker.start('Do nothing').should == 'gnihton oD'
+    describe 'catchall worker' do
+      it 'calls the catchall proc when no workers handle the request' do
+        class ReverseStringWorker
+          include HubotGf::Worker
+          def call(command)
+            command.reverse
+          end
+        end
+
+        HubotGf::Config.catchall_worker = ReverseStringWorker
+        HubotGf::Worker.start('Do nothing').should == 'gnihton oD'
+      end
+
+      it 'has @sender and @room available' do
+        class ReverseStringWorker
+          include HubotGf::Worker
+          def call(command)
+            [@sender, @room]
+          end
+        end
+
+        HubotGf::Config.catchall_worker = ReverseStringWorker
+        HubotGf::Worker.start('Do nothing', 'sender-jid', 'test-room').should == ['sender-jid', 'test-room']
+      end
     end
 
     it 'has @sender and @room available' do
